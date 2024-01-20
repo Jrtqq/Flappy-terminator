@@ -11,6 +11,7 @@ public class Bullet : MonoBehaviour
     private float _speed = 5f;
     private float _lifetime = 10f;
     private float _time = 0;
+    private bool _inPool = true; //чтобы не было ошибки при столкновении с двумя врагами одновременно
 
     public string TargetTag => _targetTag;
 
@@ -34,10 +35,9 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void Disable()
+    public void SetInPool()
     {
-        _time = 0;
-        _pool.Release(this);
+        _inPool = false;
     }
 
     public void Init(ObjectPool<Bullet> pool, string targetTag)
@@ -49,5 +49,16 @@ public class Bullet : MonoBehaviour
     public void SetDirection(Vector3 direction)
     {
         _direction = direction;
+    }
+
+    private void Disable()
+    {
+        if (_inPool == false)
+        {
+            _time = 0;
+            _pool.Release(this);
+
+            _inPool = true;
+        }
     }
 }

@@ -25,6 +25,7 @@ public class EnemyShooter : Shooter
         bullet.Init(_pool, _targetTag);
         bullet.SetDirection(-transform.right);
 
+        bullet.SetInPool();
         return bullet;
     }
 
@@ -32,5 +33,7 @@ public class EnemyShooter : Shooter
     {
         bullet.transform.position = transform.position;
         bullet.gameObject.SetActive(true);
+
+        bullet.SetInPool();
     }
 }

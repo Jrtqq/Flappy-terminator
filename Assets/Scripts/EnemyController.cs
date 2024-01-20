@@ -2,40 +2,61 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(AppearanceAnimation), typeof(Collider2D), typeof(SpriteRenderer))]
+[RequireComponent(typeof(EnemyShooter))]
 
 public class EnemyController : MonoBehaviour
 {
-    private readonly string _triggerTag = "Appear";
+    public UnityEvent EnemyKilled;
 
+    private bool _isActive;
     private EnemyPool _pool;
-    private Animator _animator;
-    private GameObject _thisEnemy; //Объект врага под пустышкой, чтобы анимация нормально работала
+    private AppearanceAnimation _animator;
+    private Collider2D _collider;
+    private SpriteRenderer _renderer;
+    private EnemyShooter _shooter;
+
+    public bool IsActive => _isActive;
 
     private void Awake()
     {
-        _thisEnemy = transform.parent.gameObject;
-
         _pool = transform.parent.GetComponentInParent<EnemyPool>();
-        _animator = GetComponent<Animator>();
-    }
+        _animator = GetComponent<AppearanceAnimation>();
+        _collider = GetComponent<Collider2D>();
+        _renderer = GetComponent<SpriteRenderer>();
+        _shooter = GetComponent<EnemyShooter>();
 
-    private void OnEnable()
-    {
-        _animator.SetTrigger(_triggerTag);
-    }
-
-    private void OnDisable()
-    {
-        _pool.ReturnToPool(_thisEnemy);
+        Disable();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out Bullet bullet) && CompareTag(bullet.TargetTag))
         {
-            _thisEnemy.SetActive(false);
+            EnemyKilled?.Invoke();
+            Disable();
         }
+    }
+
+    public void Enable()
+    {
+        _isActive = true;
+        _collider.enabled = true;
+        _renderer.enabled = true;
+        _shooter.enabled = true;
+
+        StartCoroutine(_animator.Play());
+    }
+
+    public void Disable()
+    {
+        _isActive = false;
+        _collider.enabled = false;
+        _renderer.enabled = false;
+        _shooter.enabled = false;
+
+        _pool.ReturnToPool(this);
     }
 }

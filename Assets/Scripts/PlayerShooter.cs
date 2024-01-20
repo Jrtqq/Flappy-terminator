@@ -25,6 +25,7 @@ public class PlayerShooter : Shooter
         bullet.Init(_pool, _targetTag);
         bullet.SetDirection(transform.right);
 
+        bullet.SetInPool();
         return bullet;
     }
 
@@ -33,6 +34,7 @@ public class PlayerShooter : Shooter
         bullet.transform.position = transform.position;
         bullet.SetDirection(transform.right);
 
+        bullet.SetInPool();
         bullet.gameObject.SetActive(true);
     }
 }
