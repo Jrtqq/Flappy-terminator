@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerShooter : Shooter
 {
-    private string _targetTag = "Enemy";
+    private readonly string _targetTag = "Enemy";
+    private readonly int _leftMouseButton = 0;
+
     private float _time = 1;
     private float _cooldown = 1;
 
@@ -12,7 +14,7 @@ public class PlayerShooter : Shooter
     {
         _time += Time.deltaTime;
 
-        if (Input.GetMouseButtonDown(0) && _time >= _cooldown)
+        if (Input.GetMouseButtonDown(_leftMouseButton) && _time >= _cooldown)
         {
             _time = 0;
             _pool.Get();

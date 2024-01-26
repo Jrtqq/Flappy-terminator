@@ -9,16 +9,15 @@ using UnityEngine.Events;
 
 public class EnemyController : MonoBehaviour
 {
-    public UnityEvent EnemyKilled;
+    public UnityEvent Killed;
 
-    private bool _isActive;
     private EnemyPool _pool;
     private AppearanceAnimation _animator;
     private Collider2D _collider;
     private SpriteRenderer _renderer;
     private EnemyShooter _shooter;
 
-    public bool IsActive => _isActive;
+    public bool IsActive { get; private set; }
 
     private void Awake()
     {
@@ -35,14 +34,14 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.TryGetComponent(out Bullet bullet) && CompareTag(bullet.TargetTag))
         {
-            EnemyKilled?.Invoke();
+            Killed?.Invoke();
             Disable();
         }
     }
 
     public void Enable()
     {
-        _isActive = true;
+        IsActive = true;
         _collider.enabled = true;
         _renderer.enabled = true;
         _shooter.enabled = true;
@@ -52,7 +51,7 @@ public class EnemyController : MonoBehaviour
 
     public void Disable()
     {
-        _isActive = false;
+        IsActive = false;
         _collider.enabled = false;
         _renderer.enabled = false;
         _shooter.enabled = false;

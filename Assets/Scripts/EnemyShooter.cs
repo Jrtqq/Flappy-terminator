@@ -6,7 +6,7 @@ public class EnemyShooter : Shooter
 {
     private string _targetTag = "Player";
     private float _time = 0;
-    private float _cooldown = 2;
+    private float _cooldown = 1;
 
     private void Update()
     {

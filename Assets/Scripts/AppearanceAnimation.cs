@@ -8,7 +8,7 @@ public class AppearanceAnimation : MonoBehaviour
     [SerializeField] private Vector3 _endPosition;
 
     private float _duration = 3f;
-    private float _interpolant = 0.1f;
+    private float _interpolant = 6f;
 
     public IEnumerator Play()
     {
@@ -19,7 +19,7 @@ public class AppearanceAnimation : MonoBehaviour
         {
             time += Time.deltaTime;
 
-            transform.position = Vector3.Lerp(transform.position, _endPosition, _interpolant);
+            transform.position = Vector3.Lerp(transform.position, _endPosition, _interpolant * Time.deltaTime);
             yield return null;
         }
     }

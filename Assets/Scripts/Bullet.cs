@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
     private string _targetTag;
     private Vector3 _direction;
     private ObjectPool<Bullet> _pool;
-    private float _speed = 5f;
+    private float _speed = 7f;
     private float _lifetime = 10f;
     private float _time = 0;
     private bool _inPool = true; //чтобы не было ошибки при столкновении с двумя врагами одновременно
