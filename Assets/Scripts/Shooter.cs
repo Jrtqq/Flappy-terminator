@@ -14,10 +14,12 @@ public abstract class Shooter : MonoBehaviour
     {
         _pool = new ObjectPool<Bullet>(CreateBullet, GetBullet, ReleaseBullet, DestroyBullet);
     }
+
     protected void ReleaseBullet(Bullet bullet)
     {
         bullet.gameObject.SetActive(false);
     }
+
     protected void DestroyBullet(Bullet bullet)
     {
         Destroy(bullet.gameObject);
