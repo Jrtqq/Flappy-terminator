@@ -12,7 +12,7 @@ public abstract class Shooter : MonoBehaviour
 
     private void Awake()
     {
-        _pool = new ObjectPool<Bullet>(CreateBullet, GetBullet, ReleaseBullet, DestroyBullet, true, 10, 50);
+        _pool = new ObjectPool<Bullet>(CreateBullet, GetBullet, ReleaseBullet, DestroyBullet);
     }
     protected void ReleaseBullet(Bullet bullet)
     {
